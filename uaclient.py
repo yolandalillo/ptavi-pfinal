@@ -46,5 +46,7 @@ if __name__ == "__main__":
         parser.parse(open(sys.argv[1]))
         datos = cHandler.get_tags()
         print(datos)
+        valor = diccionario_gets(rtpaudio)
+        print(valor)
     except (IndexError, ValueError):
         sys.exit("Usage: python3 uaclient.py config method option")
