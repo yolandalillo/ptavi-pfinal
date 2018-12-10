@@ -44,7 +44,7 @@ if __name__ == "__main__":
         cHandler = ficheroXML()
         parser.setContentHandler(cHandler)
         parser.parse(open(sys.argv[1]))
-        tag_lista = cHandler.get_tags()
-        print(tag_lista)
+        datos = cHandler.get_tags()
+        print(datos)
     except (IndexError, ValueError):
         sys.exit("Usage: python3 uaclient.py config method option")
