@@ -53,10 +53,12 @@ if __name__ == "__main__":
     cHandler = ficheroXML()
     parser.setContentHandler(cHandler)
     parser.parse(open(CONFIG))
-    lista = cHandler.get_tags()
-    for dic in lista:
-        print(dic)
-
-
+    datos = cHandler.get_tags()
+    
+    SERVER_PROXY = datos['regproxy_ip']
+    PORT_PROXY = int(datos['regproxy_puerto'])
+    ADDRESS = datos['account_username']
+    LOG_PATH = datos['log_path']
+    PORT = datos['uaserver_puerto']
 
 
