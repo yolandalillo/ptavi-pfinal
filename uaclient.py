@@ -1,64 +1,66 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
+ # -*- coding: utf-8 -*-
+ 
 import sys
 import socket
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
-import time
-
+ 
 class ficheroXML(ContentHandler):
     def __init__(self):
         self.diccionario = {
             "account": ["username", "passwd"],
             "uaserver": ["ip", "puerto"],
             "rtpaudio": ["puerto"],
+	    "regproxy":["ip","puerto"],
             "log": ["path"],
-	    "regproxy": ["ip","puerto"],
             "audio": ["path"],
         }
-        self.lista = []
-        self.etiquetas = self.diccionario.keys() #Para obtener las claves del diccionario.
-
+        self.config = {}
+ 
     def startElement(self, name, attrs):
-        dic_etiqueta = {}
-        if name in self.etiquetas:
-            dic_etiqueta['etiqueta'] = name
-            for atributo in self.diccionario[name]:
-                dic_etiqueta[atributo] = attrs.get(atributo, "")
-            self.lista.append(dic_etiqueta)
-
+        if name in self.diccionario:
+            for atribute in self.diccionario[name]:
+                self.config[name+"_"+atribute] = attrs.get(atribute, "")
+ 
     def get_tags(self):
-        return self.lista
+        return self.config
 
 def log(message):
-    #Fichero log
-    fich.write(time.strftime('%Y%m%d%H%M%S '))
-    fich.write(message +"\r\n")
-
+     #Fichero log
+     fich.write(time.strftime('%Y%m%d%H%M%S '))
+     fich.write(message +"\r\n")
 
 if __name__ == "__main__":
-    """
-    Programa principal
-    """
-    try:
+     """
+     Programa principal
+     """
+     try:
         CONFIG = sys.argv[1] #FicheroXML
         METODO = sys.argv[2]  # Metodo SIP
         OPCION = sys.argv[3]  # Parametro opcional
-
-    except (IndexError, ValueError):
+     except (IndexError, ValueError):
         sys.exit("Usage: python3 uaclient.py config method option")
 
-    parser = make_parser()
-    cHandler = ficheroXML()
-    parser.setContentHandler(cHandler)
-    parser.parse(open(CONFIG))
-    datos = cHandler.get_tags()
+	#Parse el fichero XML
+     parser = make_parser()
+     cHandler = ficheroXML()
+     parser.setContentHandler(cHandler)
+     parser.parse(open(CONFIG))
+
+     lista = cHandler.get_tags()
+     print(lista)
+
+     USERNAME = lista['account_username']
+     SERVER = lista['uaserver_ip']
+     PORT = lista['uaserver_puerto']
     
-    SERVER_PROXY = datos['regproxy_ip']
-    PORT_PROXY = int(datos['regproxy_puerto'])
-    ADDRESS = datos['account_username']
-    LOG_PATH = datos['log_path']
-    PORT = datos['uaserver_puerto']
+
+	
+
+
+
+
+    
 
 
