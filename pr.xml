@@ -1,5 +1,5 @@
 <config>
 	<server name="MiServidor" ip="" puerto=""/>
-	<database path="./registered.txt"/>
+	<database path="./registered.txt" passedpath=""/>
 	<log path ="">
 <config/>
