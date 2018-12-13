@@ -1,0 +1,5 @@
+<config>
+	<server name="MiServidor" ip="" puerto=""/>
+	<database path="./registered.txt"/>
+	<log path ="">
+<config/>
