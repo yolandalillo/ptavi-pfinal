@@ -76,19 +76,20 @@ if __name__ == "__main__":
         if METODO == 'BYE':
             LINE = METODO + " sip:" + OPCION + " SIP/2.0\r\n"
             print(LINE)
-            log("Sent to")
+            log("Sent to " + SERVER + ": " + PORT + ":" + LINE)
             my_socket.send(bytes(LINE, 'utf-8'))
             data = my_socket.recv(1024)
-            log("Received from: ")
             print(data.decode('utf-8'))
+            log("Received from: " + SERVER + ":" + PORT + ":" + str(data)) #Arreglar str(data)
         elif METODO == 'REGISTER':
             LINE = METODO + ' sip:' + USERNAME + ':' + PORT + ' SIP/2.0\r\n'
             LINE += "Expires: " + OPCION + "\r\n"
             print(LINE)
-            log("Sent: " + LINE)
+            log("Sent to " + SERVER + ":" + PORT + ":" + ' '.join(LINE.split()))
             my_socket.send(bytes(LINE, 'utf-8'))
             data = my_socket.recv(1024)
             print(data.decode('utf-8'))
+            log("Received from " + SERVER + ":" + PORT + ": " + ' '.join(LINE.split()))
         elif METODO == 'INVITE':
             LINE = "INVITE " + "sip:" + OPCION + " SIP/2.0\r\n"
             LINE += "Content-Type: application/sdp\r\n\r\n"
@@ -96,9 +97,12 @@ if __name__ == "__main__":
             LINE += "s=misesion" + "\r\n" + "t=0" + "\r\n"
             LINE += "m=audio " + PORTRTP + " RTP" + "\r\n"
             print(LINE)
+            log("Sent to" + SERVER + ":" + PORT + ":" + USERNAME)
             my_socket.send(bytes(LINE, 'utf-8'))
             data = my_socket.recv(1024)
             print(data.decode('utf-8'))
+            log("Received from: ")
+
         else:
             sys.exit('Method not found')
         print("Terminando socket...")
