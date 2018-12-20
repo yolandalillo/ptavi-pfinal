@@ -28,14 +28,14 @@ class ficheroXML(ContentHandler):
     def get_tags(self):
         return self.config
 
-def actually_time():
-	time_actual = time.time()
-	return time.strftime("%Y%m%d%H%M%S ",time.gmtime(time.time()))
 
+def log(message):
 
-"""
-def log():
-"""
+    time_actual = time.strftime('%Y%m%d%H%M%S', time.gmtime(time.time()))
+    fich = open(FILELOG, "a")
+    fich.write(time_actual + ' ' + message + '\r\n')
+    fich.close()
+
 
 if __name__ == "__main__":
     """
@@ -44,9 +44,10 @@ if __name__ == "__main__":
     try:
         CONFIG = sys.argv[1]  # FicheroXML.
         METODO = sys.argv[2]  # Metodo SIP.
-        OPCION = sys.argv[3]  # Parametro opcional.
+        OPCION = sys.argv[3]  # Parametro opcional
     except (IndexError, ValueError):
         sys.exit("Usage: python3 uaclient.py config method option")
+
 
 # Parse el fichero XML.
     parser = make_parser()
@@ -55,29 +56,39 @@ if __name__ == "__main__":
     parser.parse(open(CONFIG))
     lista = cHandler.get_tags()
     print(lista)
+
 # Variables necesarias.
     USERNAME = lista['account_username']
     USERPASSW = lista['account_passwd']
     SERVER = lista['uaserver_ip']
     PORT = lista['uaserver_puerto']
-    AUDIOPORT = lista['rtpaudio_puerto']
     FILEAUDIO = lista['audio_path']
     FILELOG = lista['log_path']
     IPPROXY = lista['regproxy_ip']
     PUERTOPROXY = lista['regproxy_puerto']
     PORTRTP = lista['rtpaudio_puerto']
-
-try:
+# try
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as my_socket:
         my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        my_socket.connect((IPPROXY, int(PUERTOPROXY)))
+        my_socket.connect((SERVER, int(PORT)))
 
+        log("Starting...")
         if METODO == 'BYE':
             LINE = METODO + " sip:" + OPCION + " SIP/2.0\r\n"
+            print(LINE)
+            log("Sent to")
+            my_socket.send(bytes(LINE, 'utf-8'))
+            data = my_socket.recv(1024)
+            log("Received from: ")
+            print(data.decode('utf-8'))
         elif METODO == 'REGISTER':
             LINE = METODO + ' sip:' + USERNAME + ':' + PORT + ' SIP/2.0\r\n'
             LINE += "Expires: " + OPCION + "\r\n"
-            print(LINE)    
+            print(LINE)
+            log("Sent: " + LINE)
+            my_socket.send(bytes(LINE, 'utf-8'))
+            data = my_socket.recv(1024)
+            print(data.decode('utf-8'))
         elif METODO == 'INVITE':
             LINE = "INVITE " + "sip:" + OPCION + " SIP/2.0\r\n"
             LINE += "Content-Type: application/sdp\r\n\r\n"
@@ -85,10 +96,13 @@ try:
             LINE += "s=misesion" + "\r\n" + "t=0" + "\r\n"
             LINE += "m=audio " + PORTRTP + " RTP" + "\r\n"
             print(LINE)
-        elif METODO == 'ACK':
-            print('yolanda')
-
+            my_socket.send(bytes(LINE, 'utf-8'))
+            data = my_socket.recv(1024)
+            print(data.decode('utf-8'))
+        else:
+            sys.exit('Method not found')
         print("Terminando socket...")
+        log("Finishing")
 
-except ConnectionRefusedError:
-    print("20101018160243 Error: No server listening at" + SERVER + 'port' + PORT)
+# except ConnectionRefusedError:
+    # print("Error de conexión")
