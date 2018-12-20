@@ -7,6 +7,7 @@ import os
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 from uaclient import ficheroXML
+from uaclient import log
 
 
 try:
@@ -27,7 +28,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                     self.wfile.write(b"SIP/2.0 100 Trying\r\n\r\n")
                     self.wfile.write(b"SIP/2.0 180 Ringing\r\n\r\n")
                     self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
-               	    break
+                    break
                 elif METODO == "ACK":
                     aEjecutar = "./mp32rtp -i " + SERVER + " -p 23032 < "
                     aEjecutar += FILEAUDIO
@@ -41,7 +42,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                     self.wfile.write(b"SIP/2.0 400 Bad Request" + b"\r\n")
                 if not line:
                     break
-                #Falta el 404 y el de desautorizado
+                # Falta el 404 y el de desautorizado.
 
 
 if __name__ == "__main__":
@@ -70,7 +71,7 @@ if __name__ == "__main__":
     serv = socketserver.UDPServer((SERVER, int(PORT)), EchoHandler)
     print("Listening...")
     try:
-    # Creamos el servidor.
+        # Creamos el servidor.
         serv.serve_forever()
     except KeyboardInterrupt:
         sys.exit("Servidor Finalizado")
