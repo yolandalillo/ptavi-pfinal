@@ -29,24 +29,29 @@ class proxy(ContentHandler):
 
 class SIPRegisterHandler(socketserver.DatagramRequestHandler):
 
-    dic_registrados = {}
+    dic_usuarios= {}
+
+    def register2json(self):
+        json.dump(self.dic_usuarios, open(CONFIG["database_path"],"w"),indent=4)
+	 
 
     def json2registered(self): 
-# Abrir fichero y obtener diccionario.
-        with open(CONFIG["database_passwdpath"],"r") as file_json:
-            self.dicc_usuarios = json.load(file_json)
-            print(self.dicc_usuarios)
-    def register2json(self):
-        json.dump(self.dic_registrados, open(CONFIG["database_path"],"w"))
-	        	
+# Abrir fichero y obtenemos diccionario.
+        try:
+            with open(CONFIG["database_passwdpath"],"r") as file_json:
+                self.dic_usuarios = json.load(file_json)
+                print(self.dic_usuarios)
+       	except:
+            self.dic_usuarios = {}
+
+
 if __name__ == "__main__":
     """
     Programa principal
     """
-    CONFIG = sys.argv[1]
 
     try:
-        print("Server MiServidor listening at port 5555...")
+        CONFIG = sys.argv[1]
     except IndexError:
     	sys.exit("Usage: python proxy_registrar.py config")
 
@@ -57,4 +62,13 @@ if __name__ == "__main__":
     parser.parse(open(CONFIG))
     lista = cHandler.get_tags()
     print(lista)
+    
+    NAME = lista["server_name"]
+    print("Server " + NAME + " listening at port 5555...")
+
+
+
+
+
+
 
