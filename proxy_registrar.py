@@ -8,6 +8,8 @@ import socket
 import socketserver
 import json
 from uaclient import log
+import hashlib
+
 
 
 class proxy(ContentHandler):
@@ -34,7 +36,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     dic_usuarios= {}
 
     def json2registered(self): 
-# Abrir fichero y obtenemos diccionario.
+    # Abrir fichero y obtenemos diccionario.
         try:
             with open(DATABASE,"r") as file_json:
                 self.dic_usuarios = json.load(file_json)
@@ -56,6 +58,57 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         for usuarios in del_list:
             del self.dic_usuarios[usuarios]
 
+    def register(self,data):
+
+    def invite(self,data):
+	
+    def ack(self,data):
+
+    def bye(self,data):
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            try:
+                destino = data.split()[1][4:]
+                ip_port = (self.user_data[dest]['addr'],
+                             int(self.user_data[dest]['port']))
+                sock.connect(ip_port)
+                texto = add_header(data)
+                sock.send(bytes(text, 'utf-8'))
+                recv = sock.recv(1024).decode('utf-8')
+            except (ConnectionRefusedError, KeyError):
+                recv = ""
+                self.wfile.write(bytes("SIP/2.0 404 User Not Found\r\n\r\n", 'utf-8'))
+        if recv == ("SIP/2.0 200 OK" + "\r\n\r\n"):
+            texto = add_header(recv)
+            self.socket.sendto(bytes(text, 'utf-8'), self.client_address)
+
+    def handle(self):
+        """Cada vez que un cliente envia una peticion se ejecuta."""
+        data = self.request[0].decode('utf-8')
+        c_addr = (self.client_address[0], str(self.client_address[1]))
+        FILELOG("recv", c_addr, data)
+        unallow = ["CANCEL", "OPTIONS", "SUSCRIBE", "NOTIFY", "PUBLISH",
+                   "INFO", "PRACK", "REFER", "MESSAGE", "UPDATE"]
+        print(data)
+        method = data.split()[0]
+        self.json2registered()
+        self.expired()
+
+        if method == "REGISTER":
+            self.register(data)
+        elif method == "INVITE":
+            self.invite(data)
+        elif method == "ACK":
+            self.ack(data)
+        elif method == "BYE":
+            self.bye(data)
+        elif method in unallow:
+            to_send = "SIP/2.0 405 Method Not Allowed\r\n\r\n"
+            FILELOG("send", c_addr, to_send)
+            self.wfile.write(bytes(to_send, 'utf-8'))
+        else:
+            to_send = "SIP/2.0 400 Bad Request\r\n\r\n"
+            FILELOG("send", c_addr, to_send)
+            self.wfile.write(bytes(to_send, 'utf-8'))
 
 
 
