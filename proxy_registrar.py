@@ -9,6 +9,7 @@ import socketserver
 import json
 from uaclient import log
 import hashlib
+from time import time, gmtime, strftime
 
 
 
@@ -58,18 +59,91 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         for usuarios in del_list:
             del self.dic_usuarios[usuarios]
 
-    def register(self,data):
+    # Codigos de respuesta.
 
-    def invite(self,data):
+    def register(self,data):
+        c_data = data.split()[1:]
+        usuario_name, usuario_port = c_data[0].split(':')[1:]
+        usuario_ip, usuario_exp = self.client_address[0], c_data[3]
+        usuario_pass = search_pass(usuario_name)
+        # Controlando el tiempo
+        time_exp = int(usuario_exp) + int(time())
+        str_exp = strftime('%Y-%m-%d %H:%M:%S', gmtime(time_exp))
+        nonce = "89898989898989"
+        if u_name not in self.user_data:
+            self.user_data[usuario_name] = {'addr': usuario_ip, 'expires': str_exp,
+                                      'port': usuario_port, 'auth': False,
+                                      'nonce': nonce}
+
+            to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
+                  "Digest nonce=\r\n\r\n").format(nonce)
+        elif not self.user_data[usuario_name]['auth']:
+            try:
+                resp = data.split('"')[-2]
+            except IndexError:
+                resp = ""
+            usuario_nonce = self.user_data[usuario_name]['nonce']
+            expect = hashlib.md5((usuario_nonce + usuario_pass).encode()).hexdigest()
+            if resp == expect:
+                self.user_data[usuario_name]['auth'] = True
+                self.user_data[usuario_name]['expires'] = str_exp
+                to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
+            else:
+                to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
+                  "Digest nonce=\r\n\r\n").format(nonce)
+        else:
+            to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
+        self.register2json()
+        self.wfile.write(bytes(to_send, 'utf-8'))
+        FILELOG("send", (usuario_ip, usuario_port), to_send)
+
+    def invite(self, data):
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            destination = data.split()[1][4:]
+            try:
+                ip_port = (self.user_data[dest]['addr'],
+                             int(self.user_data[destination]['port']))
+                sock.connect(ip_port)
+                texto = add_header(data)
+                sock.send(bytes(texto, 'utf-8'))
+                recv = sock.recv(1024).decode('utf-8')
+            except (ConnectionRefusedError, KeyError):
+                recv = ""
+                self.wfile.write(bytes("SIP/2.0 400 Bad Request\r\n\r\n", 'utf-8'))
+        
+            """
+            if recv.split('\r\n')[0:3] == ["100", "180","200"]:
+                text = add_header(recv)
+                print(texto)
+                self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
+        try:
+            if recv.split()[1] and recv.split()[1] == "480":
+                text = add_header(recv)
+                self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
+        except IndexError:
+            pass
+            """
 	
-    def ack(self,data):
+    def ack(self, data):
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            destination = data.split()[1][4:]
+            ip_port = (self.user_data[dest]['addr'],
+                         int(self.user_data[destination]['port']))
+            sock.connect(ip_port)
+            texto = add_header(data)
+            sock.send(bytes(texto, 'utf-8'))
+            try:
+                recv = sock.recv(1024).decode('utf-8')
+                print(recv)
+            except socket.timeout:
+                pass
 
     def bye(self,data):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             try:
-                destino = data.split()[1][4:]
+                destination = data.split()[1][4:]
                 ip_port = (self.user_data[dest]['addr'],
-                             int(self.user_data[dest]['port']))
+                             int(self.user_data[destination]['port']))
                 sock.connect(ip_port)
                 texto = add_header(data)
                 sock.send(bytes(text, 'utf-8'))
