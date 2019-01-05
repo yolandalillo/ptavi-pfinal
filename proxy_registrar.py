@@ -62,10 +62,10 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     # Codigos de respuesta.
 
 
-    def register(self,data):
-        c_data = data.split()[1:] # Sacamos informacion del usuario
-        usuario_name, usuario_port = c_data[0].split(':')[1:]
-        usuario_ip, usuario_exp = self.client_address[0], c_data[3]
+    def register(self,usuarios):
+        c_usuarios= usuarios.split()[1:] # Sacamos informacion del usuario
+        usuario_name, usuario_port = c_usuarios[0].split(':')[1:]
+        usuario_ip, usuario_exp = self.client_address[0], c_usuarios[3]
         usuario_pass = search_pass(usuario_name)
         # Controlando el tiempo
         time_exp = int(usuario_exp) + int(time())
@@ -80,7 +80,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                   "Digest nonce=\r\n\r\n" + bytes(nonce, "utf-8") + b"\r\n\r\n")
         elif not self.dic_usuarios[usuario_name]['auth']:
             try:
-                resp = data.split('"')[-2]
+                resp = usuarios.split('"')[-2]
             except IndexError:
                 resp = ""
             usuario_nonce = self.dic_usuarios[usuario_name]['nonce']
@@ -98,14 +98,14 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         self.wfile.write(bytes(to_send, 'utf-8'))
         FILELOG("send", (usuario_ip, usuario_port), to_send)
 
-    def invite(self, data):
+    def invite(self, usuarios):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            destination = data.split()[1][4:]
+            destination = usuarios.split()[1][4:]
             try:
                 ip_port = (self.dic_usuarios[dest]['addr'],
                              int(self.dic_usuarios[destination]['port']))
                 sock.connect(ip_port)
-                texto = add_header(data)
+                texto = add_header(usuarios)
                 sock.send(bytes(texto, 'utf-8'))
                 recv = sock.recv(1024).decode('utf-8')
             except (ConnectionRefusedError, KeyError):
@@ -125,13 +125,13 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             pass
             """
 	
-    def ack(self, data):
+    def ack(self, usuarios):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            destination = data.split()[1][4:]
+            destination = usuarios.split()[1][4:]
             ip_port = (self.dic_usuarios[dest]['addr'],
                          int(self.dic_usuarios[destination]['port']))
             sock.connect(ip_port)
-            texto = add_header(data)
+            texto = add_header(usuarios)
             sock.send(bytes(texto, 'utf-8'))
             try:
                 recv = sock.recv(1024).decode('utf-8')
@@ -139,14 +139,14 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             except socket.timeout:
                 pass
 
-    def bye(self,data):
+    def bye(self,usuarios):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             try:
-                destination = data.split()[1][4:]
+                destination = usuarios.split()[1][4:]
                 ip_port = (self.dic_usuarios[dest]['addr'],
                              int(self.dic_usuarios[destination]['port']))
                 sock.connect(ip_port)
-                texto = add_header(data)
+                texto = add_header(t)
                 sock.send(bytes(text, 'utf-8'))
                 recv = sock.recv(1024).decode('utf-8')
             except (ConnectionRefusedError, KeyError):
@@ -158,24 +158,24 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
 
     def handle(self):
         """Cada vez que un cliente envia una peticion se ejecuta."""
-        data = self.request[0].decode('utf-8')
+        usuarios = self.request[0].decode('utf-8')
         c_addr = (self.client_address[0], str(self.client_address[1]))
-        FILELOG("recv", c_addr, data)
+        FILELOG("recv", c_addr, usuarios)
         unallow = ["CANCEL", "OPTIONS", "SUSCRIBE", "NOTIFY", "PUBLISH",
                    "INFO", "PRACK", "REFER", "MESSAGE", "UPDATE"]
-        print(data)
-        method = data.split()[0]
+        print(usuarios)
+        method = usuarios.split()[0]
         self.json2registered()
         self.expired()
 
         if method == "REGISTER":
-            self.register(data)
+            self.register(usuarios)
         elif method == "INVITE":
-            self.invite(data)
+            self.invite(usuarios)
         elif method == "ACK":
-            self.ack(data)
+            self.ack(usuarios)
         elif method == "BYE":
-            self.bye(data)
+            self.bye(usuarios)
         elif method in unallow:
             to_send = "SIP/2.0 405 Method Not Allowed\r\n\r\n"
             FILELOG("send", c_addr, to_send)
