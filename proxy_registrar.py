@@ -61,8 +61,9 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
 
     # Codigos de respuesta.
 
+
     def register(self,data):
-        c_data = data.split()[1:]
+        c_data = data.split()[1:] # Sacamos informacion del usuario
         usuario_name, usuario_port = c_data[0].split(':')[1:]
         usuario_ip, usuario_exp = self.client_address[0], c_data[3]
         usuario_pass = search_pass(usuario_name)
@@ -70,27 +71,27 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         time_exp = int(usuario_exp) + int(time())
         str_exp = strftime('%Y-%m-%d %H:%M:%S', gmtime(time_exp))
         nonce = "89898989898989"
-        if u_name not in self.user_data:
-            self.user_data[usuario_name] = {'addr': usuario_ip, 'expires': str_exp,
+        if usuario_name not in self.dic_usuarios:
+            self.dic_usuarios[usuario_name] = {'addr': usuario_ip, 'expires': str_exp,
                                       'port': usuario_port, 'auth': False,
                                       'nonce': nonce}
 
             to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
-                  "Digest nonce=\r\n\r\n").format(nonce)
-        elif not self.user_data[usuario_name]['auth']:
+                  "Digest nonce=\r\n\r\n" + bytes(nonce, "utf-8") + b"\r\n\r\n")
+        elif not self.dic_usuarios[usuario_name]['auth']:
             try:
                 resp = data.split('"')[-2]
             except IndexError:
                 resp = ""
-            usuario_nonce = self.user_data[usuario_name]['nonce']
+            usuario_nonce = self.dic_usuarios[usuario_name]['nonce']
             expect = hashlib.md5((usuario_nonce + usuario_pass).encode()).hexdigest()
             if resp == expect:
-                self.user_data[usuario_name]['auth'] = True
-                self.user_data[usuario_name]['expires'] = str_exp
+                self.dic_usuarios[usuario_name]['auth'] = True
+                self.dic_usuarios[usuario_name]['expires'] = str_exp
                 to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
             else:
                 to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
-                  "Digest nonce=\r\n\r\n").format(nonce)
+                  "Digest nonce=\r\n\r\n" + bytes(nonce, "utf-8") + b"\r\n\r\n")
         else:
             to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
         self.register2json()
@@ -101,8 +102,8 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             destination = data.split()[1][4:]
             try:
-                ip_port = (self.user_data[dest]['addr'],
-                             int(self.user_data[destination]['port']))
+                ip_port = (self.dic_usuarios[dest]['addr'],
+                             int(self.dic_usuarios[destination]['port']))
                 sock.connect(ip_port)
                 texto = add_header(data)
                 sock.send(bytes(texto, 'utf-8'))
@@ -127,8 +128,8 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     def ack(self, data):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             destination = data.split()[1][4:]
-            ip_port = (self.user_data[dest]['addr'],
-                         int(self.user_data[destination]['port']))
+            ip_port = (self.dic_usuarios[dest]['addr'],
+                         int(self.dic_usuarios[destination]['port']))
             sock.connect(ip_port)
             texto = add_header(data)
             sock.send(bytes(texto, 'utf-8'))
@@ -142,8 +143,8 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             try:
                 destination = data.split()[1][4:]
-                ip_port = (self.user_data[dest]['addr'],
-                             int(self.user_data[destination]['port']))
+                ip_port = (self.dic_usuarios[dest]['addr'],
+                             int(self.dic_usuarios[destination]['port']))
                 sock.connect(ip_port)
                 texto = add_header(data)
                 sock.send(bytes(text, 'utf-8'))
@@ -184,9 +185,6 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             FILELOG("send", c_addr, to_send)
             self.wfile.write(bytes(to_send, 'utf-8'))
 
-
-
-
 if __name__ == "__main__":
     """
     Programa principal
@@ -218,7 +216,7 @@ if __name__ == "__main__":
     try:
         SERV.serve_forever()
     except KeyboardInterrupt:
-        sys.exit("\r\nClosed")
+        sys.exit("\r\n Proxy finalizado")
 
 
 
