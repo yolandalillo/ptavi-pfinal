@@ -94,7 +94,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
         self.register2json()
         self.wfile.write(bytes(to_send, 'utf-8'))
-        log("send", (usuario_ip, usuario_port), to_send , FILELOG)
+        log("send" + (usuario_ip, usuario_port) + to_send , FILELOG)
 
     def invite(self, usuarios):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
@@ -113,12 +113,12 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
 
             """
             if recv.split('\r\n')[0:3] == ["100", "180","200"]:
-                text = add_header(recv)
+                texto = add_header(recv)
                 print(texto)
                 self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
         try:
             if recv.split()[1] and recv.split()[1] == "480":
-                text = add_header(recv)
+                texto = add_header(recv)
                 self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
         except IndexError:
             pass
@@ -145,8 +145,8 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 ip_port = (self.dic_usuarios[dest]['addr'],
                            int(self.dic_usuarios[destination]['port']))
                 sock.connect(ip_port)
-                texto = add_header(t)
-                sock.send(bytes(text, 'utf-8'))
+                texto = add_header(usuarios)
+                sock.send(bytes(texto, 'utf-8'))
                 recv = sock.recv(1024).decode('utf-8')
             except (ConnectionRefusedError, KeyError):
                 recv = ""
@@ -154,20 +154,19 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                                        'utf-8'))
         if recv == ("SIP/2.0 200 OK" + "\r\n\r\n"):
             texto = add_header(recv)
-            self.socket.sendto(bytes(text, 'utf-8'), self.client_address)
+            self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
 
     def handle(self):
         """Cada vez que un cliente envia una peticion se ejecuta."""
         usuarios = self.request[0].decode('utf-8')
         c_addr = (self.client_address[0], str(self.client_address[1]))
-        log("recv", c_addr, usuarios, FILELOG)
+        log("recv" + c_addr[0]  + c_addr[1] + usuarios, FILELOG)
         unallow = ["CANCEL", "OPTIONS", "SUSCRIBE", "NOTIFY", "PUBLISH",
                    "INFO", "PRACK", "REFER", "MESSAGE", "UPDATE"]
         print(usuarios)
         method = usuarios.split()[0]
         self.json2registered()
         self.expired()
-
         if method == "REGISTER":
             self.register(usuarios)
         elif method == "INVITE":
@@ -178,11 +177,11 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             self.bye(usuarios)
         elif method in unallow:
             to_send = "SIP/2.0 405 Method Not Allowed\r\n\r\n"
-            FILELOG("send", c_addr, to_send)
+            log("send" + c_addr[0]  + c_addr[1] + to_send, FILELOG)
             self.wfile.write(bytes(to_send, 'utf-8'))
         else:
             to_send = "SIP/2.0 400 Bad Request\r\n\r\n"
-            FILELOG("send", c_addr, to_send)
+            log("send" + c_addr[0]  + c_addr[1] + to_send,  FILELOG)
             self.wfile.write(bytes(to_send, 'utf-8'))
 
 
@@ -213,7 +212,7 @@ if __name__ == "__main__":
         sys.exit("Usage: python proxy_registrar.py config")
 
     SERV = socketserver.UDPServer(SERVER, SIPRegisterHandler)
-    print("Server " + NAME + " listening at port 5555...")
+    print("Server " + NAME + " listening at port " + SERVERPORT + "...")
     log("Server" + NAME + " listening at port " + SERVERPORT + "...", FILELOG)
     try:
         SERV.serve_forever()

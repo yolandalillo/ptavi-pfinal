@@ -20,6 +20,7 @@ class EchoHandler(socketserver.DatagramRequestHandler):
 
     def handle(self):
             while 1:
+                log("Starting...", FILELOG)
                 line = self.rfile.read()
                 print("El proxy nos manda " + line.decode('utf-8'))
                 lista = line.decode('utf-8')
@@ -29,20 +30,30 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                     self.wfile.write(b"SIP/2.0 180 Ringing\r\n\r\n")
                     self.wfile.write(b"SIP/2.0 200 OK\r\n\r\n")
                     break
+                    log("Sent to" + SERVER + ":" + PORT + ":" + USERNAME, FILELOG)
+                    log("Received from: ", FILELOG)
                 elif METODO == "ACK":
                     aEjecutar = "./mp32rtp -i " + SERVER + " -p 23032 < "
                     aEjecutar += FILEAUDIO
                     print("Vamos a ejecutar", aEjecutar)
                     os.system(aEjecutar)
+                    log("Sent to" + SERVER + ":" + PORT + ":" + USERNAME + aEjecutar, FILELOG)
                 elif METODO == "BYE":
                     self.wfile.write(b"SIP/2.0 200 OK" + b"\r\n")
-                elif METODO != "REGISTER" or "INVITE" or "ACK":
-                    self.wfile.write(b"SIP/2.0 405 Method Not Allowed" + b"\r\n")
+                    log("Sent to" + SERVER + ":" + PORT + ":" + USERNAME, FILELOG)
+                    log("Received from: ", FILELOG)
+                elif METODO != ("REGISTER" or "INVITE" or "ACK"):
+                    self.wfile.write(b"SIP/2.0 405 Method Not Allowed"
+                                     + b"\r\n")
+                    log("Error: Method Not Allowed", FILELOG)
+
                 else:
                     self.wfile.write(b"SIP/2.0 400 Bad Request" + b"\r\n")
+                    log("Error: Bad Request")
                 if not line:
                     break
                 # Falta el 404 y el de desautorizado.
+            log("Finishing", FILELOG)
 
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@ class ficheroXML(ContentHandler):
         return self.config
 
 
-def log(message):
+def log(message, FILELOG):
 
     time_actual = time.strftime('%Y%m%d%H%M%S', time.gmtime(time.time()))
     fich = open(FILELOG, "a")
@@ -70,26 +70,29 @@ if __name__ == "__main__":
 # try
     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as my_socket:
         my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        my_socket.connect((SERVER, int(PORT)))
+        my_socket.connect((IPPROXY, int(PUERTOPROXY)))
 
-        log("Starting...")
+        log("Starting..." ,FILELOG)
         if METODO == 'BYE':
             LINE = METODO + " sip:" + OPCION + " SIP/2.0\r\n"
             print(LINE)
-            log("Sent to " + SERVER + ": " + PORT + ":" + LINE)
+            log("Sent to " + SERVER + ": " + PORT + ":" + LINE , FILELOG)
             my_socket.send(bytes(LINE, 'utf-8'))
             data = my_socket.recv(1024)
             print(data.decode('utf-8'))
-            log("Received from: " + SERVER + ":" + PORT + ":" + str(data)) #Arreglar str(data)
+            log("Received from: " + SERVER + ":" +
+                PORT + ":" + str(data), FILELOG)  # Arreglar str(data).
         elif METODO == 'REGISTER':
             LINE = METODO + ' sip:' + USERNAME + ':' + PORT + ' SIP/2.0\r\n'
             LINE += "Expires: " + OPCION + "\r\n"
             print(LINE)
-            log("Sent to " + SERVER + ":" + PORT + ":" + ' '.join(LINE.split()))
+            log("Sent to " + SERVER + ":" +
+                PORT + ":" + ' '.join(LINE.split()), FILELOG)
             my_socket.send(bytes(LINE, 'utf-8'))
             data = my_socket.recv(1024)
             print(data.decode('utf-8'))
-            log("Received from " + SERVER + ":" + PORT + ": " + ' '.join(LINE.split()))
+            log("Received from " + SERVER + ":" + PORT
+                + ": " + ' '.join(LINE.split()), FILELOG)
         elif METODO == 'INVITE':
             LINE = "INVITE " + "sip:" + OPCION + " SIP/2.0\r\n"
             LINE += "Content-Type: application/sdp\r\n\r\n"
@@ -97,16 +100,17 @@ if __name__ == "__main__":
             LINE += "s=misesion" + "\r\n" + "t=0" + "\r\n"
             LINE += "m=audio " + PORTRTP + " RTP" + "\r\n"
             print(LINE)
-            log("Sent to" + SERVER + ":" + PORT + ":" + USERNAME)
+            log("Sent to" + SERVER + ":" + PORT + ":" + USERNAME, FILELOG)
             my_socket.send(bytes(LINE, 'utf-8'))
             data = my_socket.recv(1024)
             print(data.decode('utf-8'))
-            log("Received from: ")
+            log("Received from: ", FILELOG)
 
         else:
             sys.exit('Method not found')
+            log("Error: Method not found", FILELOG)
         print("Terminando socket...")
-        log("Finishing")
+        log("Finishing", FILELOG)
 
 # except ConnectionRefusedError:
     # print("Error de conexión")
