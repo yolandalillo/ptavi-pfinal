@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
 	<server name="ptavi@urjc.com" ip="127.0.0.1" puerto="5678"/>
-	<database path="database.txt" passwdpath="passwords.json"/>
+	<database path="usuarios.txt" passwdpath="passwords.json"/>
 	<log path ="proxylog.txt"/>
 </config>

@@ -255,3 +255,223 @@ Expires: 36
 20190108120922 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
 20190108120922 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
 20190108120922 Finishing
+20190108121716 Starting...
+20190108121716 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108121716 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108121716 Finishing
+20190108121737 Starting...
+20190108121737 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108121737 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108121737 Finishing
+20190108121934 Starting...
+20190108121934 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108121935 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108121935 Finishing
+20190108122005 Starting...
+20190108122005 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122005 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122005 Finishing
+20190108122026 Starting...
+20190108122026 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122026 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122026 Finishing
+20190108122053 Starting...
+20190108122053 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122053 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122053 Finishing
+20190108122226 Starting...
+20190108122226 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122226 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122226 Finishing
+20190108122248 Starting...
+20190108122248 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122248 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122248 Finishing
+20190108122402 Starting...
+20190108122402 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122402 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122402 Finishing
+20190108122822 Starting...
+20190108122822 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122822 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122822 Finishing
+20190108122841 Starting...
+20190108122841 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122841 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122841 Finishing
+20190108122956 Starting...
+20190108122956 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122956 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108122956 Finishing
+20190108123154 Starting...
+20190108123154 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108123154 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108123154 Finishing
+20190108123254 Starting...
+20190108123254 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108123254 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108123254 Finishing
+20190108123731 Starting...
+20190108123731 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108123731 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108123731 Finishing
+20190108124408 Starting...
+20190108124408 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124408 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124408 Finishing
+20190108124441 Starting...
+20190108124441 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124441 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124441 Finishing
+20190108124559 Starting...
+20190108124559 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124559 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124559 Finishing
+20190108124707 Starting...
+20190108124707 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124707 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124707 Finishing
+20190108124739 Starting...
+20190108124739 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124739 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108124739 Finishing
+20190108125015 Starting...
+20190108125015 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125015 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125015 Finishing
+20190108125137 Starting...
+20190108125137 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125137 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125137 Finishing
+20190108125202 Starting...
+20190108125202 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125202 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125202 Finishing
+20190108125247 Starting...
+20190108125247 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125247 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125247 Finishing
+20190108125336 Starting...
+20190108125336 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125336 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125336 Finishing
+20190108125436 Starting...
+20190108125436 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125436 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125436 Finishing
+20190108125619 Starting...
+20190108125619 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125619 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125619 Finishing
+20190108125633 Starting...
+20190108125633 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125633 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125633 Finishing
+20190108125713 Starting...
+20190108125713 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125713 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125713 Finishing
+20190108125805 Starting...
+20190108125805 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125805 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125805 Finishing
+20190108125820 Starting...
+20190108125820 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125820 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108125820 Finishing
+20190108130024 Starting...
+20190108130024 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130024 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130024 Finishing
+20190108130040 Starting...
+20190108130041 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130041 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130041 Finishing
+20190108130234 Starting...
+20190108130234 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130234 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130234 Finishing
+20190108130250 Starting...
+20190108130250 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130250 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130250 Finishing
+20190108130343 Starting...
+20190108130343 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130343 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130343 Finishing
+20190108130704 Starting...
+20190108130704 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130704 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108130704 Finishing
+20190108131356 Starting...
+20190108131356 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108131356 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108131356 Finishing
+20190108131515 Starting...
+20190108131515 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108131515 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108131515 Finishing
+20190108131538 Starting...
+20190108131538 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108131538 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108131538 Finishing
+20190108132107 Starting...
+20190108132107 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132107 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132107 Finishing
+20190108132123 Starting...
+20190108132123 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132123 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132123 Finishing
+20190108132323 Starting...
+20190108132323 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132323 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132323 Finishing
+20190108132355 Starting...
+20190108132355 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132355 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132355 Finishing
+20190108132417 Starting...
+20190108132417 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132417 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132417 Finishing
+20190108132538 Starting...
+20190108132538 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132538 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132538 Finishing
+20190108132554 Starting...
+20190108132554 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132555 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132555 Finishing
+20190108132620 Starting...
+20190108132621 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132621 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132621 Finishing
+20190108132637 Starting...
+20190108132637 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132637 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132637 Finishing
+20190108132656 Starting...
+20190108132656 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132656 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132656 Finishing
+20190108132712 Starting...
+20190108132712 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132712 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132712 Finishing
+20190108132803 Starting...
+20190108132803 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132803 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108132803 Finishing
+20190108132819 Starting...
+20190108132819 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 0
+20190108132819 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 0
+20190108132819 Finishing
+20190108132848 Starting...
+20190108132848 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 0
+20190108132848 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 0
+20190108132848 Finishing
+20190108133104 Starting...
+20190108133104 Sent to 127.0.0.1:6001:REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108133104 Received from 127.0.0.1:6001: REGISTER sip:yolanda@urjc.es:6001 SIP/2.0 Expires: 36
+20190108133104 Finishing

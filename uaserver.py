@@ -52,7 +52,6 @@ class EchoHandler(socketserver.DatagramRequestHandler):
                     log("Error: Bad Request")
                 if not line:
                     break
-                # Falta el 404 y el de desautorizado.
             log("Finishing", FILELOG)
 
 

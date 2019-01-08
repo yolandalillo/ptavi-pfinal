@@ -8,7 +8,7 @@ import socketserver
 import json
 from uaclient import log
 import hashlib
-from time import time, gmtime, strftime
+import time
 
 
 class proxy(ContentHandler):
@@ -27,11 +27,24 @@ class proxy(ContentHandler):
     def get_tags(self):
         return self.config
 
-
 class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     """ Clase para un servidor SIP. """
 
     dic_usuarios = {}
+
+    def search_pass(self, name):
+        """Busca password del usuario ."""
+        with open(DATABASE) as file:
+            try:
+                for line in file:
+                    if line.split(':')[0] == name:
+                        passwd = line.split(':')[1][0:-1]
+                        break
+                    else:
+                        passwd = " "
+                    return passwd
+            except FileNotFoundError:
+                sys.exit("Password file not found")
 
     def json2registered(self):  # Abrir fichero y obtenemos diccionario.
         try:
@@ -56,13 +69,14 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     # Codigos de respuesta.
 
     def register(self, usuarios):
+        """Codigo de respuesta register."""
         c_usuarios = usuarios.split()[1:]  # Sacamos informacion del usuario.
         usuario_name, usuario_port = c_usuarios[0].split(':')[1:]
         usuario_ip, usuario_exp = self.client_address[0], c_usuarios[3]
-        usuario_pass = search_pass(usuario_name)
-        # Controlando el tiempo
-        time_exp = int(usuario_exp) + int(time())
-        str_exp = strftime('%Y-%m-%d %H:%M:%S', gmtime(time_exp))
+        usuario_pass = self.search_pass(usuario_name)
+        # Controlando el tiempo.
+        time_exp = int(usuario_exp) + int(time.time())
+        str_exp = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time_exp))
         nonce = "89898989898989"
         if usuario_name not in self.dic_usuarios:
             self.dic_usuarios[usuario_name] = {'addr': usuario_ip,
@@ -72,8 +86,8 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                                                'nonce': nonce}
 
             to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: "
-                       + "Digest nonce=\r\n\r\n" + bytes(nonce, "utf-8")
-                       + b"\r\n\r\n")
+                       + "Digest nonce=\r\n\r\n" +  nonce
+                       + "\r\n\r\n")
         elif not self.dic_usuarios[usuario_name]['auth']:
             try:
                 resp = usuarios.split('"')[-2]
@@ -88,15 +102,16 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
             else:
                 to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: "
-                           + "Digest nonce=\r\n\r\n" + bytes(nonce, "utf-8")
-                           + b"\r\n\r\n")
+                           + "Digest nonce=\r\n\r\n" + nonce
+                           + "\r\n\r\n")
         else:
             to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
         self.register2json()
         self.wfile.write(bytes(to_send, 'utf-8'))
-        log("send" + (usuario_ip, usuario_port) + to_send , FILELOG)
+        log("send" + usuario_ip + usuario_port + to_send , FILELOG)
 
     def invite(self, usuarios):
+        """Codigo de respuesta invite."""
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             destination = usuarios.split()[1][4:]
             try:
@@ -125,6 +140,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             """
 
     def ack(self, usuarios):
+        """Codigo de respuesta ack."""
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             destination = usuarios.split()[1][4:]
             ip_port = (self.dic_usuarios[dest]['addr'],
@@ -139,6 +155,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 pass
 
     def bye(self, usuarios):
+        """Codigo de respuesta bye."""
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             try:
                 destination = usuarios.split()[1][4:]
