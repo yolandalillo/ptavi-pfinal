@@ -13,7 +13,6 @@ import hashlib
 import time
 
 
-
 class proxy(ContentHandler):
     """Fichero XML del proxy."""
 
@@ -68,7 +67,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         with open(DATABASE, "w") as file_json:
             json.dump(self.dic_usuarios, file_json, sort_keys=True, indent=4)
 
-    def expired(self):
+    def borrar_resgistrados(self):
         """Para borrar los usuarios registrados."""
         del_list = []
         actual = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time()))
@@ -79,6 +78,20 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             del self.dic_usuarios[usuarios]
 
     # Codigos de respuesta.
+    def ack(self, usuarios):
+        """Codigo de respuesta ack."""
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            destination = usuarios.split()[1][4:]
+            ip_port = (self.dic_usuarios[destination]['addr'],
+                       int(self.dic_usuarios[destination]['port']))
+            sock.connect(ip_port)
+            texto = add_header(usuarios)
+            sock.send(bytes(texto, 'utf-8'))
+            try:
+                recv = sock.recv(1024).decode('utf-8')
+                print(recv)
+            except socket.timeout:
+                pass
 
     def register(self, usuarios):
         """Codigo de respuesta register."""
@@ -94,8 +107,8 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             self.dic_usuarios[usuario_name] = {'addr': usuario_ip,
                                                'expires': str_exp,
                                                'port': usuario_port,
-                                               'auth': False}
-                                               #'nonce': nonce}
+                                               'auth': False,
+                                               'nonce': nonce}
 
             to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
                        "Digest nonce=" + nonce + "\r\n\r\n")
@@ -112,14 +125,33 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 self.dic_usuarios[usuario_name]['expires'] = str_exp
                 to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
             else:
-                to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: "
-                           + "Digest nonce=\r\n\r\n" + nonce
-                           + "\r\n\r\n")
+                to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
+                           "Digest nonce=\r\n\r\n" + nonce +
+                           "\r\n\r\n")
         else:
             to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
         self.register2json()
         self.wfile.write(bytes(to_send, 'utf-8'))
         log("send" + usuario_ip + usuario_port + to_send, FILELOG)
+
+    def bye(self, usuarios):
+        """Codigo de respuesta bye."""
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            try:
+                destination = usuarios.split()[1][4:]
+                ip_port = (self.dic_usuarios[destination]['addr'],
+                           int(self.dic_usuarios[destination]['port']))
+                sock.connect(ip_port)
+                texto = add_header(usuarios)
+                sock.send(bytes(texto, 'utf-8'))
+                recv = sock.recv(1024).decode('utf-8')
+            except (ConnectionRefusedError, KeyError):
+                recv = ""
+                self.wfile.write(bytes("SIP/2.0 404 User Not Found\r\n\r\n",
+                                       'utf-8'))
+        if recv == ("SIP/2.0 200 OK" + "\r\n\r\n"):
+            texto = add_header(recv)
+            self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
 
     def invite(self, usuarios):
         """Codigo de respuesta invite."""
@@ -148,40 +180,6 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         except IndexError:
             pass
 
-    def ack(self, usuarios):
-        """Codigo de respuesta ack."""
-        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            destination = usuarios.split()[1][4:]
-            ip_port = (self.dic_usuarios[destination]['addr'],
-                       int(self.dic_usuarios[destination]['port']))
-            sock.connect(ip_port)
-            texto = add_header(usuarios)
-            sock.send(bytes(texto, 'utf-8'))
-            try:
-                recv = sock.recv(1024).decode('utf-8')
-                print(recv)
-            except socket.timeout:
-                pass
-
-    def bye(self, usuarios):
-        """Codigo de respuesta bye."""
-        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            try:
-                destination = usuarios.split()[1][4:]
-                ip_port = (self.dic_usuarios[destination]['addr'],
-                           int(self.dic_usuarios[destination]['port']))
-                sock.connect(ip_port)
-                texto = add_header(usuarios)
-                sock.send(bytes(texto, 'utf-8'))
-                recv = sock.recv(1024).decode('utf-8')
-            except (ConnectionRefusedError, KeyError):
-                recv = ""
-                self.wfile.write(bytes("SIP/2.0 404 User Not Found\r\n\r\n",
-                                       'utf-8'))
-        if recv == ("SIP/2.0 200 OK" + "\r\n\r\n"):
-            texto = add_header(recv)
-            self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
-
     def handle(self):
         """Cada vez que un cliente envia una peticion se ejecuta."""
         usuarios = self.request[0].decode('utf-8')
@@ -192,7 +190,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         print(usuarios)
         method = usuarios.split()[0]
         self.json2registered()
-        self.expired()
+        self.borrar_resgistrados()
         if method == "REGISTER":
             self.register(usuarios)
         elif method == "INVITE":
