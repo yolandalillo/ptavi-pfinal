@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 """Programa para un proxy."""
-
 import sys
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
@@ -12,10 +11,8 @@ from uaclient import log
 import hashlib
 import time
 
-
 class proxy(ContentHandler):
     """Fichero XML del proxy."""
-
     def __init__(self):
         """Definicion del diccionario con los datos del XML del proxy."""
         self.dic = {"server": ["name", "ip", "puerto"],
@@ -23,23 +20,18 @@ class proxy(ContentHandler):
                     "log": ["path"],
                     }
         self.config = {}
-
     def startElement(self, name, attrs):
         """Guarda los atributos."""
         if name in self.dic:
             for atribute in self.dic[name]:
                 self.config[name+"_"+atribute] = attrs.get(atribute, "")
-
     def get_tags(self):
         """Devuelve los atributos."""
         return self.config
 
-
 class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     """Clase para un servidor SIP."""
-
     dic_usuarios = {}
-
     def search_pass(self, name):
         """Busca password del usuario ."""
         with open(DATABASE) as file:
@@ -61,12 +53,10 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 self.dic_usuarios = json.load(file_json)
         except FileNotFoundError:
             self.dic_usuarios = {}
-
     def register2json(self):
         """Introduce usuario en el json."""
         with open(DATABASE, "w") as file_json:
             json.dump(self.dic_usuarios, file_json, sort_keys=True, indent=4)
-
     def expired(self):
         """Para borrar los usuarios registrados."""
         del_list = []
@@ -76,9 +66,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 del_list.append(usuarios)
         for usuarios in del_list:
             del self.dic_usuarios[usuarios]
-
     # Codigos de respuesta.
-
     def register(self, usuarios):
         """Codigo de respuesta register."""
         c_usuarios = usuarios.split()[1:]  # Sacamos informacion del usuario.
@@ -95,7 +83,6 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                                                'port': usuario_port,
                                                'auth': False,
                                                'nonce': nonce}
-
             to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
                        "Digest nonce=" + nonce + "\r\n\r\n")
         elif not self.dic_usuarios[usuario_name]['auth']:
@@ -119,14 +106,12 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         self.register2json()
         self.wfile.write(bytes(to_send, 'utf-8'))
         log("send" + usuario_ip + usuario_port + to_send, FILELOG)
-
     def invite(self, usuarios):
         """Codigo de respuesta invite."""
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             destination = usuarios.split()[1][4:]
             try:
-                ip_port = (self.dic_usuarios[destination]['addr'],
-                           int(self.dic_usuarios[destination]['port']))
+                ip_port = (self.dic_usuarios[destination]['addr'], int(self.dic_usuarios[destination]['port']))
                 sock.connect(ip_port)
                 texto = add_header(usuarios)
                 sock.send(bytes(texto, 'utf-8'))
@@ -141,6 +126,10 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 texto = add_header(recv)
                 print(texto)
                 self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
+        if recv.split('\r\n')[0:3] == ["100", "180", "200"]:
+            texto = add_header(recv)
+            print(texto)
+            self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
         try:
             if recv.split()[1] and recv.split()[1] == "480":
                 texto = add_header(recv)
@@ -153,6 +142,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         """Codigo de respuesta ack."""
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             destination = usuarios.split()[1][4:]
+            ip_port = (self.dic_usuarios[dest]['addr'],
             ip_port = (self.dic_usuarios[destination]['addr'],
                        int(self.dic_usuarios[destination]['port']))
             sock.connect(ip_port)
@@ -163,12 +153,12 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 print(recv)
             except socket.timeout:
                 pass
-
     def bye(self, usuarios):
         """Codigo de respuesta bye."""
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             try:
                 destination = usuarios.split()[1][4:]
+                ip_port = (self.dic_usuarios[dest]['addr'],
                 ip_port = (self.dic_usuarios[destination]['addr'],
                            int(self.dic_usuarios[destination]['port']))
                 sock.connect(ip_port)
@@ -182,7 +172,6 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         if recv == ("SIP/2.0 200 OK" + "\r\n\r\n"):
             texto = add_header(recv)
             self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
-
     def handle(self):
         """Cada vez que un cliente envia una peticion se ejecuta."""
         usuarios = self.request[0].decode('utf-8')
@@ -210,13 +199,10 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             to_send = "SIP/2.0 400 Bad Request\r\n\r\n"
             log("send" + c_addr[0] + c_addr[1] + to_send,  FILELOG)
             self.wfile.write(bytes(to_send, 'utf-8'))
-
-
 if __name__ == "__main__":
     """
     Programa principal
     """
-
     try:
         CONFIG = sys.argv[1]
         # Parse del fichero XML.
@@ -226,7 +212,6 @@ if __name__ == "__main__":
         parser.parse(open(CONFIG))
         lista = cHandler.get_tags()
         print(lista)
-
         NAME = lista["server_name"]
         SERVER = lista["server_ip"], int(lista["server_puerto"])
         FILELOG = lista["log_path"]
@@ -234,10 +219,8 @@ if __name__ == "__main__":
         PASSWD_PATH = lista["database_passwdpath"]
         PROXY_HEADER = "Via: SIP/2.0/UDP {}:{}".format(SERVER[0], SERVER[1])
         SERVERPORT = lista["server_puerto"]
-
     except IndexError:
         sys.exit("Usage: python proxy_registrar.py config")
-
     SERV = socketserver.UDPServer(SERVER, SIPRegisterHandler)
     print("Server " + NAME + " listening at port " + SERVERPORT + "...")
     log("Server" + NAME + " listening at port " + SERVERPORT + "...", FILELOG)

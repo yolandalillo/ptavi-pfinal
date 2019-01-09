@@ -1000,3 +1000,100 @@ m=audio 23032 RTP
 
 20190109120744 recv127.0.0.135325BYE sip:38 SIP/2.0
 
+20190109122604 Serverptavi@urjc.com listening at port 5678...
+20190109122620 recv127.0.0.142703REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109122636 recv127.0.0.147265REGISTER sip:pepe@urjc.es:6002 SIP/2.0
+Expires: 456
+
+20190109122745 recv127.0.0.141909INVITE sip:pepe@urjc.es SIP/2.0
+Content-Type: application/sdp
+
+v=0
+o=yolanda@urjc.es 127.0.0.1 
+s=misesion
+t=0
+m=audio 23032 RTP
+
+20190109122756 recv127.0.0.151861REGISTER sip:pepe@urjc.es:6002 SIP/2.0
+Expires: 0
+
+20190109122803 recv127.0.0.147114REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+
+20190109123027 Serverptavi@urjc.com listening at port 5678...
+20190109123035 recv127.0.0.132885REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 365
+
+20190109123053 recv127.0.0.136499REGISTER sip:pepe@urjc.es:6002 SIP/2.0
+Expires: 321
+
+20190109123100 recv127.0.0.132846INVITE sip:321 SIP/2.0
+Content-Type: application/sdp
+
+v=0
+o=pepe@urjc.es 127.0.0.1 
+s=misesion
+t=0
+m=audio 23032 RTP
+
+20190109123116 recv127.0.0.134550INVITE sip:yolanda@urjc.es SIP/2.0
+Content-Type: application/sdp
+
+v=0
+o=pepe@urjc.es 127.0.0.1 
+s=misesion
+t=0
+m=audio 23032 RTP
+
+20190109123128 recv127.0.0.159600REGISTER sip:pepe@urjc.es:6002 SIP/2.0
+Expires: 0
+
+20190109123600 Serverptavi@urjc.com listening at port 5678...
+20190109123606 recv127.0.0.143222REGISTER sip:pepe@urjc.es:6002 SIP/2.0
+Expires: 321
+
+20190109123803 Serverptavi@urjc.com listening at port 5678...
+20190109123807 recv127.0.0.143623REGISTER sip:pepe@urjc.es:6002 SIP/2.0
+Expires: 321
+
+20190109124027 Serverptavi@urjc.com listening at port 5678...
+20190109124030 recv127.0.0.133251REGISTER sip:pepe@urjc.es:6002 SIP/2.0
+Expires: 321
+
+20190109124242 Serverptavi@urjc.com listening at port 5678...
+20190109124244 recv127.0.0.136404REGISTER sip:pepe@urjc.es:6002 SIP/2.0
+Expires: 321
+
+20190109124259 Serverptavi@urjc.com listening at port 5678...
+20190109124302 recv127.0.0.142366REGISTER sip:pepe@urjc.es:6002 SIP/2.0
+Expires: 321
+
+20190109124311 recv127.0.0.135540REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 321
+
+20190109124554 Serverptavi@urjc.com listening at port 5678...
+20190109124556 recv127.0.0.156300REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 321
+
+20190109124621 Serverptavi@urjc.com listening at port 5678...
+20190109124624 recv127.0.0.160373REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 321
+
+20190109124811 Serverptavi@urjc.com listening at port 5678...
+20190109124814 recv127.0.0.143074REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 321
+
+20190109125014 Serverptavi@urjc.com listening at port 5678...
+20190109125016 recv127.0.0.157902REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 321
+
+20190109125118 Serverptavi@urjc.com listening at port 5678...
+20190109125120 recv127.0.0.138393REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 321
+
+20190109130252 Serverptavi@urjc.com listening at port 5678...
+20190109130257 recv127.0.0.151026REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 321
+

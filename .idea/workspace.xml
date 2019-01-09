@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04d2e2d4-35ea-4cc0-a006-5f227004ec09" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/pruebaproxy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proxy_registrar.py" beforeDir="false" afterPath="$PROJECT_DIR$/proxy_registrar.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/proxylog.txt" beforeDir="false" afterPath="$PROJECT_DIR$/proxylog.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ua1log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ua1log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/uaclient.py" beforeDir="false" afterPath="$PROJECT_DIR$/uaclient.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ua2log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ua2log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/usuarios.txt" beforeDir="false" afterPath="$PROJECT_DIR$/usuarios.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,38 +42,38 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="pruebacliente" value="1" />
-          <entry key="py" value="17" />
+          <entry key="py" value="18" />
           <entry key="sh" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="17" />
+          <entry key="Python" value="18" />
           <entry key="Scratch" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="5066" />
+          <entry key="py" value="5172" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="5066" />
+          <entry key="Python" value="5172" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/proxy_registrar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1305">
-              <caret line="95" column="12" selection-start-line="95" selection-start-column="12" selection-end-line="95" selection-end-column="12" />
+            <state relative-caret-position="1200">
+              <caret line="122" column="31" lean-forward="true" selection-start-line="122" selection-start-column="31" selection-end-line="122" selection-end-column="31" />
               <folding>
-                <element signature="e#43#53#0" expanded="true" />
+                <element signature="e#74#84#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -81,23 +82,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/uaserver.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="38" selection-end-column="40" />
+            <state relative-caret-position="690">
+              <caret line="52" column="33" selection-start-line="52" selection-start-column="33" selection-end-line="52" selection-end-column="33" />
               <folding>
-                <element signature="e#44#54#0" expanded="true" />
+                <marker date="1547030384238" expanded="true" signature="487:492" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/uaclient.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="100" column="88" selection-start-line="100" selection-start-column="88" selection-end-line="100" selection-end-column="88" />
-              <folding>
-                <element signature="e#44#54#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="15">
+              <caret line="34" column="21" selection-start-line="34" selection-end-line="35" />
             </state>
           </provider>
         </entry>
@@ -115,6 +113,9 @@
     <findStrings>
       <find>search</find>
       <find>expect</find>
+      <find>random</find>
+      <find>nonce</find>
+      <find>dest</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -124,17 +125,18 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/uaserver.py" />
-        <option value="$PROJECT_DIR$/proxy_registrar.py" />
         <option value="$PROJECT_DIR$/pruebacliente" />
         <option value="$PROJECT_DIR$/pruebauaclient.py" />
         <option value="$PROJECT_DIR$/uaclient.py" />
+        <option value="$PROJECT_DIR$/proxy_registrar.py" />
+        <option value="$PROJECT_DIR$/pruebaproxy.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="51" />
     <option name="y" value="27" />
-    <option name="width" value="731" />
+    <option name="width" value="721" />
     <option name="height" value="996" />
   </component>
   <component name="ProjectView">
@@ -221,49 +223,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/proxy_registrar.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1305">
-          <caret line="95" column="12" selection-start-line="95" selection-start-column="12" selection-end-line="95" selection-end-column="12" />
-          <folding>
-            <element signature="e#43#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pruebacliente">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2370">
-          <caret line="158" selection-start-line="158" selection-end-line="158" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pruebauaclient.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="132" column="76" selection-start-line="132" selection-start-column="76" selection-end-line="132" selection-end-column="76" />
-          <folding>
-            <element signature="e#44#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/pruebacliente" />
+    <entry file="file://$PROJECT_DIR$/pruebauaclient.py" />
     <entry file="file://$PROJECT_DIR$/uaserver.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="35" column="20" selection-start-line="35" selection-start-column="20" selection-end-line="38" selection-end-column="40" />
+        <state relative-caret-position="690">
+          <caret line="52" column="33" selection-start-line="52" selection-start-column="33" selection-end-line="52" selection-end-column="33" />
           <folding>
-            <element signature="e#44#54#0" expanded="true" />
+            <marker date="1547030384238" expanded="true" signature="487:492" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/uaclient.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="100" column="88" selection-start-line="100" selection-start-column="88" selection-end-line="100" selection-end-column="88" />
+        <state relative-caret-position="15">
+          <caret line="34" column="21" selection-start-line="34" selection-end-line="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pruebaproxy.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="114" column="37" lean-forward="true" selection-start-line="114" selection-start-column="37" selection-end-line="114" selection-end-column="37" />
           <folding>
-            <element signature="e#44#54#0" expanded="true" />
+            <element signature="e#73#83#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/proxy_registrar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1200">
+          <caret line="122" column="31" lean-forward="true" selection-start-line="122" selection-start-column="31" selection-end-line="122" selection-end-column="31" />
+          <folding>
+            <element signature="e#74#84#0" expanded="true" />
           </folding>
         </state>
       </provider>
