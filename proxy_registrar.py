@@ -125,7 +125,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             destination = usuarios.split()[1][4:]
             try:
-                ip_port = (self.dic_usuarios[dest]['addr'],
+                ip_port = (self.dic_usuarios[destination]['addr'],
                            int(self.dic_usuarios[destination]['port']))
                 sock.connect(ip_port)
                 texto = add_header(usuarios)
@@ -135,25 +135,22 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 recv = ""
                 self.wfile.write(bytes("SIP/2.0 400 Bad Request\r\n\r\n",
                                        'utf-8'))
-
-            """
-            if recv.split('\r\n')[0:3] == ["100", "180","200"]:
-                texto = add_header(recv)
-                print(texto)
-                self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
+        if recv.split('\r\n')[0:3] == ["100", "180", "200"]:
+            texto = add_header(recv)
+            print(texto)
+            self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
         try:
             if recv.split()[1] and recv.split()[1] == "480":
                 texto = add_header(recv)
                 self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
         except IndexError:
             pass
-            """
 
     def ack(self, usuarios):
         """Codigo de respuesta ack."""
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             destination = usuarios.split()[1][4:]
-            ip_port = (self.dic_usuarios[dest]['addr'],
+            ip_port = (self.dic_usuarios[destination]['addr'],
                        int(self.dic_usuarios[destination]['port']))
             sock.connect(ip_port)
             texto = add_header(usuarios)
@@ -169,7 +166,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             try:
                 destination = usuarios.split()[1][4:]
-                ip_port = (self.dic_usuarios[dest]['addr'],
+                ip_port = (self.dic_usuarios[destination]['addr'],
                            int(self.dic_usuarios[destination]['port']))
                 sock.connect(ip_port)
                 texto = add_header(usuarios)
