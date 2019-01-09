@@ -11,6 +11,7 @@ import json
 from uaclient import log
 import hashlib
 import time
+import random
 
 
 class proxy(ContentHandler):
@@ -88,7 +89,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         # Controlando el tiempo.
         time_exp = int(usuario_exp) + int(time.time())
         str_exp = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time_exp))
-        nonce = "89898989898989"
+        nonce = random.randint(0, 9999999999999999)
         if usuario_name not in self.dic_usuarios:
             self.dic_usuarios[usuario_name] = {'addr': usuario_ip,
                                                'expires': str_exp,
