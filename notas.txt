@@ -1,0 +1,2 @@
+He implementado el fichero json para hacer poder restrablecer
+los usuarios conectados y asi completar uno de los requisitos avanzados.
