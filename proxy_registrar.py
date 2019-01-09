@@ -86,17 +86,16 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                                                'nonce': nonce}
 
             to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: "
-                       + "Digest nonce=\r\n\r\n" +  nonce
-                       + "\r\n\r\n")
+                       + "Digest nonce=" +  nonce + "\r\n\r\n")
         elif not self.dic_usuarios[usuario_name]['auth']:
             try:
                 resp = usuarios.split('"')[-2]
             except IndexError:
                 resp = ""
             usuario_nonce = self.dic_usuarios[usuario_name]['nonce']
-            expect = hashlib.md5((usuario_nonce
+            variable = hashlib.md5((usuario_nonce
                                   + usuario_pass).encode()).hexdigest()
-            if resp == expect:
+            if resp == variable:
                 self.dic_usuarios[usuario_name]['auth'] = True
                 self.dic_usuarios[usuario_name]['expires'] = str_exp
                 to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")

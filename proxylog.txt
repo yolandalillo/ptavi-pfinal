@@ -298,3 +298,192 @@ WWW-Authenticate: Digest nonce=
 89898989898989
 
 
+20190108133949 recv127.0.0.134183REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190108133949 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
+20190109093118 Serverptavi@urjc.com listening at port 5678...
+20190109093145 recv127.0.0.153582REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109093145 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
+20190109093217 Serverptavi@urjc.com listening at port 5678...
+20190109093219 recv127.0.0.149656REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109093219 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
+20190109100201 recv127.0.0.160199REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109100201 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109100257 recv127.0.0.159835REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109100257 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109100324 recv127.0.0.155918REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109100324 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
+20190109100346 recv127.0.0.138940REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109100346 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109100455 recv127.0.0.154122REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109100455 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109100455 recv127.0.0.154122REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+Authorization: Digest response=e7d7561479dcde1706e6c9f99c6e2671
+
+
+20190109100455 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
+20190109100506 recv127.0.0.134996REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109100506 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
+20190109100506 recv127.0.0.134996REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+Authorization: Digest response=827ccb0eea8a706c4c34a16891f84e7b
+
+
+20190109100506 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
+20190109100524 recv127.0.0.143947REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+
+20190109100524 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
+20190109100524 recv127.0.0.143947REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+Authorization: Digest response=827ccb0eea8a706c4c34a16891f84e7b
+
+
+20190109100524 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
+20190109100638 recv127.0.0.135607REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+
+20190109100638 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109100733 recv127.0.0.135904REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+
+20190109100733 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109100736 recv127.0.0.154893REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+
+20190109100736 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109101858 recv127.0.0.141997REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+
+20190109101858 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109101858 recv127.0.0.141997REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+Authorization: Digest response=e7d7561479dcde1706e6c9f99c6e2671
+
+
+20190109101858 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109101904 Serverptavi@urjc.com listening at port 5678...
+20190109101907 recv127.0.0.143787REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+
+20190109101908 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109101908 recv127.0.0.143787REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 0
+Authorization: Digest response=e7d7561479dcde1706e6c9f99c6e2671
+
+
+20190109101908 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109101922 recv127.0.0.151434REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+
+20190109101922 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=89898989898989
+
+
+20190109101922 recv127.0.0.151434REGISTER sip:yolanda@urjc.es:6001 SIP/2.0
+Expires: 36
+Authorization: Digest response=e7d7561479dcde1706e6c9f99c6e2671
+
+
+20190109101922 send127.0.0.16001SIP/2.0 401 Unauthorized
+WWW-Authenticate: Digest nonce=
+
+89898989898989
+
+
