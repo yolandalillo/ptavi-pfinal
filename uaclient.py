@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""Programa para un cliente."""
 
 import sys
 import socket
@@ -10,7 +11,10 @@ import hashlib
 
 
 class ficheroXML(ContentHandler):
+    """Fichero XML del cliente que es igual en el servidor."""
+
     def __init__(self):
+        """Definicion del diccionario con los datos del XML."""
         self.diccionario = {
             "account": ["username", "passwd"],
             "uaserver": ["ip", "puerto"],
@@ -22,16 +26,18 @@ class ficheroXML(ContentHandler):
         self.config = {}
 
     def startElement(self, name, attrs):
+        """Guarda los atributos."""
         if name in self.diccionario:
             for atribute in self.diccionario[name]:
                 self.config[name+"_"+atribute] = attrs.get(atribute, "")
 
     def get_tags(self):
+        """Devuelve los atributos."""
         return self.config
 
 
 def log(message, FILELOG):
-
+    """Crea el fichero log."""
     time_actual = time.strftime('%Y%m%d%H%M%S', time.gmtime(time.time()))
     fich = open(FILELOG, "a")
     fich.write(time_actual + ' ' + message + '\r\n')
@@ -72,12 +78,11 @@ if __name__ == "__main__":
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as my_socket:
             my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             my_socket.connect((IPPROXY, int(PUERTOPROXY)))
-
-            log("Starting..." ,FILELOG)
+            log("Starting...", FILELOG)
             if METODO == 'BYE':
                 LINE = METODO + " sip:" + OPCION + " SIP/2.0\r\n"
                 print(LINE)
-                log("Sent to " + SERVER + ": " + PORT + ":" + LINE , FILELOG)
+                log("Sent to " + SERVER + ": " + PORT + ":" + LINE, FILELOG)
                 my_socket.send(bytes(LINE, 'utf-8'))
                 data = my_socket.recv(1024)
                 print(data.decode('utf-8'))
@@ -85,7 +90,8 @@ if __name__ == "__main__":
                     PORT + ":" + str(data), FILELOG)  # Arreglar str(data).
 
             elif METODO == 'REGISTER':
-                LINE = METODO + ' sip:' + USERNAME + ':' + PORT + ' SIP/2.0\r\n'
+                LINE = METODO + ' sip:' + USERNAME +\
+                       ':' + PORT + ' SIP/2.0\r\n'
                 LINE += "Expires: " + OPCION + "\r\n"
                 print(LINE)
                 log("Sent to " + SERVER + ":" +
@@ -98,19 +104,21 @@ if __name__ == "__main__":
 
                 data = data.decode('utf-8').split("\r\n")
                 datos = " ".join(data)
-                log("Received from "+ IPPROXY + " "+ PUERTOPROXY + " " + datos, FILELOG)
-
+                log("Received from " + IPPROXY + " " +
+                    PUERTOPROXY + " " + datos, FILELOG)
                 if data[0] == "SIP/2.0 401 Unauthorized":
                     variable = hashlib.md5()
                     nonce = data[1].split("=")[-1]
                     variable.update(bytes(USERPASSW, 'utf-8'))
                     variable.update(bytes(nonce, 'utf-8'))
-                    LINE += "Authorization: Digest response=" + variable.hexdigest() + "\r\n"
+                    LINE += "Authorization: Digest response=" +\
+                            variable.hexdigest() + "\r\n"
                     print("Enviando: \r\n" + LINE)
                     my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
                     listadatos = LINE.split('\r\n')
                     datos = " ".join(listadatos)
-                    log("Sent_to "+ IPPROXY + " "+ PUERTOPROXY + " " + datos, FILELOG)
+                    log("Sent_to " + IPPROXY + " " + PUERTOPROXY +
+                        " " + datos, FILELOG)
                     data = my_socket.recv(1024)
                     print("Recibido: \r\n", data.decode('utf-8'))
 
@@ -129,7 +137,8 @@ if __name__ == "__main__":
 
                 data = data.decode('utf-8').split("\r\n")
                 datos = " ".join(data)
-                log("Received from "+ IPPROXY + " "+ PUERTOPROXY + " " + datos, FILELOG)
+                log("Received from " + IPPROXY + " " + PUERTOPROXY +
+                    " " + datos, FILELOG)
                 if data[0] == "SIP/2.0 100 Trying":
                     # Metodo de asentimiento. ACK sip:receptor SIP/2.0
                     METODO = 'ACK'
@@ -138,9 +147,11 @@ if __name__ == "__main__":
                     my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
                     listadatos = LINE.split('\r\n')
                     datos = " ".join(listadatos)
-                    log("Sent_to "+ IPPROXY + " " + PUERTOPROXY + " " + datos, FILELOG)
+                    log("Sent_to " + IPPROXY + " " + PUERTOPROXY +
+                        " " + datos, FILELOG)
                     # Envio RTP
-                    # aEjecutar es un string con lo que se ha de ejecutar en la shell
+                    # aEjecutar es un string con
+                    # lo que se ha de ejecutar en la shell
                     aEjecutar = "./mp32rtp -i " + SERVER + " -p 23032 < "
                     aEjecutar += FILEAUDIO
                     print("Vamos a ejecutar", aEjecutar)
