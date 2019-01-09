@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+"""Programa para un proxy."""
+
 import sys
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
@@ -12,7 +14,10 @@ import time
 
 
 class proxy(ContentHandler):
+    """Fichero XML del proxy."""
+
     def __init__(self):
+        """Definicion del diccionario con los datos del XML del proxy."""
         self.dic = {"server": ["name", "ip", "puerto"],
                     "database": ["path", "passwdpath"],
                     "log": ["path"],
@@ -20,15 +25,18 @@ class proxy(ContentHandler):
         self.config = {}
 
     def startElement(self, name, attrs):
+        """Guarda los atributos."""
         if name in self.dic:
             for atribute in self.dic[name]:
                 self.config[name+"_"+atribute] = attrs.get(atribute, "")
 
     def get_tags(self):
+        """Devuelve los atributos."""
         return self.config
 
+
 class SIPRegisterHandler(socketserver.DatagramRequestHandler):
-    """ Clase para un servidor SIP. """
+    """Clase para un servidor SIP."""
 
     dic_usuarios = {}
 
@@ -46,18 +54,21 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             except FileNotFoundError:
                 sys.exit("Password file not found")
 
-    def json2registered(self):  # Abrir fichero y obtenemos diccionario.
+    def json2registered(self):
+        """Crea fichero json y lo metemos dentro del diccionario."""
         try:
             with open(DATABASE, "r") as file_json:
                 self.dic_usuarios = json.load(file_json)
-        except:
+        except FileNotFoundError:
             self.dic_usuarios = {}
 
-    def register2json(self):  # Introducimos usuario en el fichero JSON.
+    def register2json(self):
+        """Introduce usuario en el json."""
         with open(DATABASE, "w") as file_json:
             json.dump(self.dic_usuarios, file_json, sort_keys=True, indent=4)
 
-    def expired(self):  # Para borrar los usuarios registrados.
+    def expired(self):
+        """Para borrar los usuarios registrados."""
         del_list = []
         actual = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time()))
         for usuarios in self.dic_usuarios:
@@ -85,18 +96,17 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                                                'auth': False,
                                                'nonce': nonce}
 
-            to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: "
-                       + "Digest nonce=\r\n\r\n" +  nonce
-                       + "\r\n\r\n")
+            to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
+                       "Digest nonce=" + nonce + "\r\n\r\n")
         elif not self.dic_usuarios[usuario_name]['auth']:
             try:
                 resp = usuarios.split('"')[-2]
             except IndexError:
                 resp = ""
             usuario_nonce = self.dic_usuarios[usuario_name]['nonce']
-            expect = hashlib.md5((usuario_nonce
-                                  + usuario_pass).encode()).hexdigest()
-            if resp == expect:
+            variable = hashlib.md5((usuario_nonce +
+                                    usuario_pass).encode()).hexdigest()
+            if resp == variable:
                 self.dic_usuarios[usuario_name]['auth'] = True
                 self.dic_usuarios[usuario_name]['expires'] = str_exp
                 to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
@@ -108,7 +118,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
         self.register2json()
         self.wfile.write(bytes(to_send, 'utf-8'))
-        log("send" + usuario_ip + usuario_port + to_send , FILELOG)
+        log("send" + usuario_ip + usuario_port + to_send, FILELOG)
 
     def invite(self, usuarios):
         """Codigo de respuesta invite."""
@@ -177,7 +187,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         """Cada vez que un cliente envia una peticion se ejecuta."""
         usuarios = self.request[0].decode('utf-8')
         c_addr = (self.client_address[0], str(self.client_address[1]))
-        log("recv" + c_addr[0]  + c_addr[1] + usuarios, FILELOG)
+        log("recv" + c_addr[0] + c_addr[1] + usuarios, FILELOG)
         unallow = ["CANCEL", "OPTIONS", "SUSCRIBE", "NOTIFY", "PUBLISH",
                    "INFO", "PRACK", "REFER", "MESSAGE", "UPDATE"]
         print(usuarios)
@@ -194,11 +204,11 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             self.bye(usuarios)
         elif method in unallow:
             to_send = "SIP/2.0 405 Method Not Allowed\r\n\r\n"
-            log("send" + c_addr[0]  + c_addr[1] + to_send, FILELOG)
+            log("send" + c_addr[0] + c_addr[1] + to_send, FILELOG)
             self.wfile.write(bytes(to_send, 'utf-8'))
         else:
             to_send = "SIP/2.0 400 Bad Request\r\n\r\n"
-            log("send" + c_addr[0]  + c_addr[1] + to_send,  FILELOG)
+            log("send" + c_addr[0] + c_addr[1] + to_send,  FILELOG)
             self.wfile.write(bytes(to_send, 'utf-8'))
 
 
@@ -223,7 +233,7 @@ if __name__ == "__main__":
         DATABASE = lista["database_path"]
         PASSWD_PATH = lista["database_passwdpath"]
         PROXY_HEADER = "Via: SIP/2.0/UDP {}:{}".format(SERVER[0], SERVER[1])
-        SERVERPORT = lista ["server_puerto"]
+        SERVERPORT = lista["server_puerto"]
 
     except IndexError:
         sys.exit("Usage: python proxy_registrar.py config")
