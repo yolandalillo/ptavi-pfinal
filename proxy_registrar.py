@@ -94,8 +94,8 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             self.dic_usuarios[usuario_name] = {'addr': usuario_ip,
                                                'expires': str_exp,
                                                'port': usuario_port,
-                                               'auth': False,
-                                               'nonce': nonce}
+                                               'auth': False}
+                                               #'nonce': nonce}
 
             to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
                        "Digest nonce=" + nonce + "\r\n\r\n")
