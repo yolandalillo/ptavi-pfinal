@@ -13,6 +13,7 @@ import hashlib
 import time
 
 
+
 class proxy(ContentHandler):
     """Fichero XML del proxy."""
 
@@ -40,7 +41,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
 
     dic_usuarios = {}
 
-    def search_pass(self, name):
+    def buscar_pass(self, name):
         """Busca password del usuario ."""
         with open(DATABASE) as file:
             try:
@@ -84,7 +85,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         c_usuarios = usuarios.split()[1:]  # Sacamos informacion del usuario.
         usuario_name, usuario_port = c_usuarios[0].split(':')[1:]
         usuario_ip, usuario_exp = self.client_address[0], c_usuarios[3]
-        usuario_pass = self.search_pass(usuario_name)
+        usuario_pass = self.buscar_pass(usuario_name)
         # Controlando el tiempo.
         time_exp = int(usuario_exp) + int(time.time())
         str_exp = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time_exp))
@@ -136,18 +137,16 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
                 self.wfile.write(bytes("SIP/2.0 400 Bad Request\r\n\r\n",
                                        'utf-8'))
 
-            """
-            if recv.split('\r\n')[0:3] == ["100", "180","200"]:
-                texto = add_header(recv)
-                print(texto)
-                self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
+        if recv.split('\r\n')[0:3] == ["100", "180", "200"]:
+            texto = add_header(recv)
+            print(texto)
+            self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
         try:
             if recv.split()[1] and recv.split()[1] == "480":
                 texto = add_header(recv)
                 self.socket.sendto(bytes(texto, 'utf-8'), self.client_address)
         except IndexError:
             pass
-            """
 
     def ack(self, usuarios):
         """Codigo de respuesta ack."""
