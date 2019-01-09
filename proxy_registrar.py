@@ -11,6 +11,7 @@ import json
 from uaclient import log
 import hashlib
 import time
+import random
 
 
 class proxy(ContentHandler):
@@ -39,20 +40,20 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     """Clase para un servidor SIP."""
 
     dic_usuarios = {}
+    nonce = {}
 
-    def buscar_pass(self, name):
-        """Busca password del usuario ."""
-        with open(DATABASE) as file:
-            try:
-                for line in file:
-                    if line.split(':')[0] == name:
-                        passwd = line.split(':')[1][0:-1]
-                        break
-                    else:
-                        passwd = " "
-                    return passwd
-            except FileNotFoundError:
-                sys.exit("Password file not found")
+    def json_pass(self):
+        """Crea fichero de las contraseñas ."""
+        try:
+            with open(PASSWD_PATH, "r") as file_json:
+                self.dic_passwd = json.load(file_json)
+        except FileNotFoundError:
+                self.dic_passwd = {}
+
+    def register_pass(self):
+        """Introduce contraseñas en el json."""
+        with open(PASSWD_PATH, "w") as file_json:
+            json.dump(self.dic_passwd, file_json, sort_keys=True, indent=4)
 
     def json2registered(self):
         """Crea fichero json y lo metemos dentro del diccionario."""
@@ -70,9 +71,8 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
     def borrar_resgistrados(self):
         """Para borrar los usuarios registrados."""
         del_list = []
-        actual = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time.time()))
         for usuarios in self.dic_usuarios:
-            if self.dic_usuarios[usuarios]["expires"] <= actual:
+            if self.dic_usuarios[usuarios]["expires"] <= time.time():
                 del_list.append(usuarios)
         for usuarios in del_list:
             del self.dic_usuarios[usuarios]
@@ -95,44 +95,51 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
 
     def register(self, usuarios):
         """Codigo de respuesta register."""
-        c_usuarios = usuarios.split()[1:]  # Sacamos informacion del usuario.
-        usuario_name, usuario_port = c_usuarios[0].split(':')[1:]
-        usuario_ip, usuario_exp = self.client_address[0], c_usuarios[3]
-        usuario_pass = self.buscar_pass(usuario_name)
+        c_usuarios = usuarios.split()  # Sacamos informacion del usuario.
+        print(c_usuarios)
+        usuario_port = c_usuarios[1].split(':')[2]
+        usuario_name = c_usuarios[1].split(':')[1]
+        usuario_ip, usuario_exp = self.client_address[0], c_usuarios[4]
         # Controlando el tiempo.
-        time_exp = int(usuario_exp) + int(time.time())
-        str_exp = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time_exp))
-        nonce = "89898989898989"
-        if usuario_name not in self.dic_usuarios:
-            self.dic_usuarios[usuario_name] = {'addr': usuario_ip,
-                                               'expires': str_exp,
-                                               'port': usuario_port,
-                                               'auth': False,
-                                               'nonce': nonce}
+        time_exp = int(usuario_exp) + time.time()
+        str_exp = time.time()
+        usuarios.split()
+        if usuarios.split()[0] == 'REGISTER' and len(usuarios.split()) == 5:
+            if usuario_name not in self.dic_usuarios:
+                self.nonce[usuario_name] = str(random.randint(0, 999999999999))
+                to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
+                           "Digest nonce=" +
+                           self.nonce[usuario_name] + "\r\n\r\n")
+            else:
+                to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
+            self.wfile.write(bytes(to_send, 'utf-8'))
+            log("send" + usuario_ip + usuario_port + to_send, FILELOG)
 
-            to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
-                       "Digest nonce=" + nonce + "\r\n\r\n")
-        elif not self.dic_usuarios[usuario_name]['auth']:
-            try:
-                resp = usuarios.split('"')[-2]
-            except IndexError:
-                resp = ""
-            usuario_nonce = self.dic_usuarios[usuario_name]['nonce']
-            variable = hashlib.md5((usuario_nonce +
-                                    usuario_pass).encode()).hexdigest()
-            if resp == variable:
-                self.dic_usuarios[usuario_name]['auth'] = True
-                self.dic_usuarios[usuario_name]['expires'] = str_exp
+        elif usuarios.split()[0] == 'REGISTER' and len(usuarios.split()) == 8:
+            comprobar = c_usuarios[7].split('=')[1]
+            contrasena = self.dic_passwd[usuario_name]["passwd"]
+            variable = hashlib.md5()
+            variable.update(bytes(contrasena, 'utf-8'))
+            variable.update(bytes(self.nonce[usuario_name], 'utf-8'))
+            print(variable.hexdigest())
+            print("la contraseña es ", contrasena)
+            print("self nonce es", self.nonce[usuario_name])
+            if variable.hexdigest() == comprobar:
+                self.dic_usuarios[usuario_name] = {'addr': usuario_ip,
+                                                   'expires': str_exp,
+                                                   'port': usuario_port,
+                                                   'time': time_exp,
+                                                   }
                 to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
             else:
-                to_send = ("SIP/2.0 401 Unauthorized\r\nWWW-Authenticate: " +
-                           "Digest nonce=\r\n\r\n" + nonce +
-                           "\r\n\r\n")
+                to_send = ("ERROR: Contraseña incorrecta")
         else:
-            to_send = ("SIP/2.0 200 OK" + "\r\n\r\n")
-        self.register2json()
+            to_send = ("SIP/2.0 404 User Not Found: usuario no registrado" +
+                       "\r\n\r\n")
+
         self.wfile.write(bytes(to_send, 'utf-8'))
         log("send" + usuario_ip + usuario_port + to_send, FILELOG)
+        self.register2json()
 
     def bye(self, usuarios):
         """Codigo de respuesta bye."""
@@ -190,6 +197,7 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
         print(usuarios)
         method = usuarios.split()[0]
         self.json2registered()
+        self.json_pass()
         self.borrar_resgistrados()
         if method == "REGISTER":
             self.register(usuarios)
