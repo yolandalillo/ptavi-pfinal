@@ -8,6 +8,7 @@ from xml.sax import make_parser
 from xml.sax.handler import ContentHandler
 import time
 import hashlib
+import os
 
 
 class ficheroXML(ContentHandler):
@@ -139,23 +140,23 @@ if __name__ == "__main__":
                 datos = " ".join(data)
                 log("Received from " + IPPROXY + " " + PUERTOPROXY +
                     " " + datos, FILELOG)
-                if data[0] == "SIP/2.0 100 Trying":
+            elif METODO == 'ACK':
                     # Metodo de asentimiento. ACK sip:receptor SIP/2.0
-                    METODO = 'ACK'
-                    LINE = METODO + ' sip:' + OPCION + ' SIP/2.0\r\n'
-                    print("Enviando: \r\n" + LINE)
-                    my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
-                    listadatos = LINE.split('\r\n')
-                    datos = " ".join(listadatos)
-                    log("Sent_to " + IPPROXY + " " + PUERTOPROXY +
-                        " " + datos, FILELOG)
-                    # Envio RTP
-                    # aEjecutar es un string con
-                    # lo que se ha de ejecutar en la shell
-                    aEjecutar = "./mp32rtp -i " + SERVER + " -p 23032 < "
-                    aEjecutar += FILEAUDIO
-                    print("Vamos a ejecutar", aEjecutar)
-                    os.system(aEjecutar)
+                METODO = 'ACK'
+                LINE = METODO + ' sip:' + OPCION + ' SIP/2.0\r\n'
+                print("Enviando: \r\n" + LINE)
+                my_socket.send(bytes(LINE, 'utf-8') + b'\r\n')
+                listadatos = LINE.split('\r\n')
+                datos = " ".join(listadatos)
+                log("Sent_to " + IPPROXY + " " + PUERTOPROXY +
+                    " " + datos, FILELOG)
+                # Envio RTP
+                # aEjecutar es un string con
+                # lo que se ha de ejecutar en la shell
+                aEjecutar = "./mp32rtp -i " + SERVER + " -p 23032 < "
+                aEjecutar += FILEAUDIO
+                print("Vamos a ejecutar", aEjecutar)
+                os.system(aEjecutar)
 
             else:
                 sys.exit('Method not found')
