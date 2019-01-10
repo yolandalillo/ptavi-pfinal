@@ -121,9 +121,6 @@ class SIPRegisterHandler(socketserver.DatagramRequestHandler):
             variable = hashlib.md5()
             variable.update(bytes(contrasena, 'utf-8'))
             variable.update(bytes(self.nonce[usuario_name], 'utf-8'))
-            print(variable.hexdigest())
-            print("la contraseña es ", contrasena)
-            print("self nonce es", self.nonce[usuario_name])
             if variable.hexdigest() == comprobar:
                 self.dic_usuarios[usuario_name] = {'addr': usuario_ip,
                                                    'expires': str_exp,
